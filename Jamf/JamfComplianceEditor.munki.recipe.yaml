@@ -1,0 +1,27 @@
+Identifier: com.github.jc0b.munki.JamfComplianceEditor
+Description: >
+  Downloads the Jamf Compliance Editor app from Jamf's site,
+  and imports into Munki repository.
+MinimumVersion: "2.3"
+ParentRecipe: com.github.grahampugh.recipes.pkg.JamfComplianceEditor
+
+Input:
+  NAME: "JamfComplianceEditor"
+  DISPLAY_NAME: "Jamf Compliance Editor"
+  MUNKI_REPO_SUBDIR: "apps/Jamf"
+  pkginfo:
+    catalogs:
+      - testing
+    description: >
+      Jamf Compliance Editor is a tool that provides macOS,
+      iOS/iPadOS system administrators with an easy way to
+      establish and manage compliance baselines on their
+      fleet of Apple devices.
+    display_name: "%DISPLAY_NAME%"
+    name: "%NAME%"
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pkg_path%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
