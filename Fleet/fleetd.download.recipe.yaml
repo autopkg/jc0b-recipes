@@ -1,0 +1,23 @@
+Description: |
+  Gets the latest version of the fleetd installer (as built by Fleet) from their downloads page.
+Identifier: com.github.jc0b.download.fleetd
+MinimumVersion: "2.3"
+
+Input:
+  NAME: fleetd
+  FLEET_DOWNLOAD_URL: "https://download.fleetdm.com/fleetd-base.pkg"
+
+Process:
+  - Processor: URLDownloader
+    Arguments:
+      url: "%FLEET_DOWNLOAD_URL%"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      expected_authority_names:
+        - "Developer ID Installer: Fleet Device Management Inc (8VBZ3948LU)"
+        - "Developer ID Certification Authority"
+        - "Apple Root CA"
+      input_path: "%pathname%"
