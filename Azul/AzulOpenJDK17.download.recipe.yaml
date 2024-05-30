@@ -1,0 +1,33 @@
+Description: |
+  Gets the latest version of Azul Zulu OpenJDK 17 from Azul's CDN.
+  Set the ARCHITECTURE key to aarch64 to get Apple Silicon-native builds.
+Identifier: com.github.jc0b.download.AzulOpenJDK17
+MinimumVersion: "2.3"
+
+Input:
+  NAME: AzulOpenJDK17
+  ARCHITECTURE: x64
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: "(zulu17.([0-9]+(.[0-9]+)+)-ca-jdk17.([0-9]+(.[0-9]+)+)-macosx_%ARCHITECTURE%.dmg)"
+      url: "https://cdn.azul.com/zulu/bin/?C=M;O=D"
+
+  - Processor: URLDownloader
+    Arguments:
+      url: "https://cdn.azul.com/zulu/bin/%match%"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: "%pathname%/*.pkg"
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      expected_authority_names:
+        - "Developer ID Installer: Azul Systems, Inc. (TDTHCUPYFR)"
+        - "Developer ID Certification Authority"
+        - "Apple Root CA"
+      input_path: "%pathname%/%dmg_found_filename%"

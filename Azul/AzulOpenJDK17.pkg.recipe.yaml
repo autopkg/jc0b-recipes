@@ -1,0 +1,27 @@
+Description: |
+  Gets the latest version of Azul Zulu OpenJDK 17 from Azul's CDN, and builds a package out of it.
+Identifier: com.github.jc0b.pkg.AzulOpenJDK17
+MinimumVersion: "2.3"
+ParentRecipe: com.github.jc0b.download.AzulOpenJDK17
+
+Input:
+  NAME: AzulOpenJDK17
+
+Process:
+
+  - Processor: com.github.homebysix.VersionSplitter/VersionSplitter
+    Arguments:
+      version: "%match%"
+      index: 1
+      split_on: "jdk"
+
+  - Processor: com.github.jazzace.processors/TextSearcher
+    Arguments:
+      re_pattern: \d+\.\d{1,2}\.\d{1,2}
+      text_in: "%version%"
+      result_output_var_name: "version"
+
+  - Processor: PkgCopier
+    Arguments:
+      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCHITECTURE%-%version%.pkg"
+      source_pkg: "%pathname%/%dmg_found_filename%"

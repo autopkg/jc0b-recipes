@@ -1,0 +1,75 @@
+Description: |
+  Gets the latest version of Azul Zulu OpenJDK 17 from Azul's CDN, and imports it into Munki.
+  Set the MUNKI_ARCH key to arm64, and the ARCHITECTURE key to aarch64 for Apple Silicon-native builds.
+Identifier: com.github.jc0b.munki.AzulOpenJDK17
+MinimumVersion: "2.3"
+ParentRecipe: com.github.jc0b.pkg.AzulOpenJDK17
+
+Input:
+  NAME: AzulOpenJDK17
+  MUNKI_ARCH: x86_64
+  MUNKI_REPO_SUBDIR: azul/OpenJDK17
+  pkginfo:
+    catalogs:
+      - testing
+    description: |
+      Azul Zulu builds of OpenJDK are open source, TCK-tested and certified builds of OpenJDK. Azul Zulu is available for a wide range of hardware platforms and operating systems.
+    developer: Azul Systems
+    display_name: Azul Zulu OpenJDK 17
+    name: "%NAME%"
+    supported_architectures:
+      - "%MUNKI_ARCH%"
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: "%pkg_path%"
+      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgroot: "%RECIPE_CACHE_DIR%/%NAME%"
+      pkgdirs:
+        Library: "0755"
+        Library/Java: "0755"
+        Library/Java/JavaVirtualMachines: "0755"
+        Library/Java/JavaVirtualMachines/zulu-17.jdk: "0755"
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      destination_path: "%RECIPE_CACHE_DIR%/%NAME%/Library/Java/JavaVirtualMachines/zulu-17.jdk"
+      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack/zulu-17.pkg/Payload"
+      purge_destination: true
+
+  - Processor: MunkiInstallsItemsCreator
+    Arguments:
+      faux_root: "%RECIPE_CACHE_DIR%/%NAME%/"
+      installs_item_paths:
+        - "/Library/Java/JavaVirtualMachines/zulu-17.jdk"
+      version_comparison_key: "CFBundleShortVersionString"
+
+  - Processor: MunkiPkginfoMerger
+
+  - Processor: PlistReader
+    Arguments:
+      info_path: "%RECIPE_CACHE_DIR%/%NAME%/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Info.plist"
+      plist_keys:
+        CFBundleShortVersionString: "version"
+
+  - Processor: MunkiPkginfoMerger
+    Arguments:
+      additional_pkginfo:
+        version: "%version%"
+
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pkg_path%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/%NAME%/"
+        - "%RECIPE_CACHE_DIR%/unpack/"
