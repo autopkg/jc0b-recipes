@@ -1,0 +1,23 @@
+Identifier: com.github.jc0b.munki.Ice
+Description: Imports an Ice .pkg into Munki.
+MinimumVersion: "2.3"
+ParentRecipe: com.github.jc0b.pkg.Ice
+
+Input:
+  MUNKI_REPO_SUBDIR: jordanbaird/ice
+  NAME: Ice
+  pkginfo:
+    catalogs:
+      - testing
+    description: Ice is a powerful menu bar management tool. While its primary function is hiding and showing menu bar items, it aims to cover a wide variety of additional features to make it one of the most versatile menu bar tools available.
+    developer: Jordan Baird
+    name: "%NAME%"
+    unattended_install: true
+    uninstall_method: removepackages
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      extract_icon: true
+      pkg_path: "%pkg_path%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
