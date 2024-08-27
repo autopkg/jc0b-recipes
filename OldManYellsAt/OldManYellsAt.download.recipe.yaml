@@ -1,0 +1,25 @@
+Description: Gets the latest version of old-man-yells-at from Github releases, and normalises the version.
+Identifier: com.github.jc0b.download.OldManYellsAt
+MinimumVersion: "2.3"
+
+Input:
+  ARCH: x86_64
+  NAME: old-man-yells-at
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      github_repo: oncilla/old-man-yells-at
+      asset_regex: "old-man-yells-at_Darwin_%ARCH%.tar.gz"
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: "%NAME%-%ARCH%-%version%.tar.gz"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: "%pathname%"
+      destination_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%"
+      purge_destination: true
