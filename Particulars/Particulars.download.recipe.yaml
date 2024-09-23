@@ -1,0 +1,24 @@
+Description: |
+  Gets the latest version of Particulars from particulars.app.
+Identifier: com.github.jc0b.download.Particulars
+MinimumVersion: "2.3"
+
+Input:
+  NAME: Particulars
+  DOWNLOAD_URL: https://particulars.app/_downloads/Particulars-latest.pkg
+
+Process:
+  - Processor: URLDownloader
+    Arguments:
+      filename: "%NAME%.pkg"
+      url: "%DOWNLOAD_URL%"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      expected_authority_names:
+        - "Developer ID Installer: Fraser Hess (2Z25XDNP2X)"
+        - "Developer ID Certification Authority"
+        - "Apple Root CA"
+      input_path: "%pathname%"
