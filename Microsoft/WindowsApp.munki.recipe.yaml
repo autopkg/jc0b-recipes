@@ -1,0 +1,22 @@
+Description: Downloads the latest Microsoft Windows App pkg and imports it into Munki.
+Identifier: com.github.jc0b.munki.WindowsApp
+ParentRecipe: com.github.jc0b.download.WindowsApp
+MinimumVersion: "2.3"
+Input:
+  NAME: WindowsApp
+  DISPLAY_NAME: "Windows App"
+  MUNKI_REPO_SUBDIR: "microsoft/windowsapp"
+  pkginfo:
+    catalogs:
+      - testing
+    description: >
+      Windows App is your gateway to Azure Virtual Desktop, Windows 365, Microsoft Dev Box, Remote Desktop Services, and remote PCs, securely connecting you to Windows devices and apps.
+    display_name: "%DISPLAY_NAME%"
+    name: "%NAME%"
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      extract_icon: true
+      pkg_path: "%pathname%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"

@@ -1,0 +1,22 @@
+Description: Downloads the latest Microsoft Windows App pkg.
+Identifier: com.github.jc0b.download.WindowsApp
+MinimumVersion: "2.3"
+Input:
+  NAME: WindowsApp
+  DOWNLOAD_URL: https://go.microsoft.com/fwlink/?linkid=868963
+
+Process:
+  - Processor: URLDownloader
+    Arguments:
+      url: "%DOWNLOAD_URL%"
+      filename: "%NAME%.pkg"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%pathname%"
+      expected_authority_names:
+        - "Developer ID Installer: Microsoft Corporation (UBF8T346G9)"
+        - "Developer ID Certification Authority"
+        - "Apple Root CA"
