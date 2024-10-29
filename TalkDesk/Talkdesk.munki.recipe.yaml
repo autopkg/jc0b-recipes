@@ -1,0 +1,23 @@
+Description: Downloads the latest versions of Talkdesk, and imports it into Munki.
+Identifier: com.github.jc0b.munki.Talkdesk
+ParentRecipe: com.github.jc0b.download.Talkdesk
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Talkdesk
+  MUNKI_REPO_SUBDIR: talkdesk/talkdesk
+  pkginfo:
+    catalogs:
+      - testing
+    description: Talkdesk is a global cloud contact center leader for modern AI-powered customer service that is trusted, flexible, and innovative.
+    developer: Talkdesk, Inc
+    name: "%NAME%"
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      extract_icon: true
+      pkg_path: "%pathname%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"

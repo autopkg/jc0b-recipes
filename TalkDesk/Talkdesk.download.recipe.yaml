@@ -1,0 +1,23 @@
+Description: Downloads the latest versions of Talkdesk.
+Identifier: com.github.jc0b.download.Talkdesk
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Talkdesk
+
+Process:
+  - Processor: com.github.jc0b.shared/TalkdeskReleaseInfoProvider
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: '%NAME%.dmg'
+      download_dir: '%RECIPE_CACHE_DIR%/downloads'
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/Talkdesk.app'
+      requirement: identifier com.talkdesk.atlas and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = YGGJX44TB8
+      deep_verification: True
+      strict_verification: True
