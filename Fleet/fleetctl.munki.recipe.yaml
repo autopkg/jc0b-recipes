@@ -1,0 +1,30 @@
+Description: Gets the latest version of fleetctl, and imports it into Munki.
+Identifier: com.github.jc0b.munki.fleetctl
+ParentRecipe: com.github.jc0b.pkg.fleetctl
+MinimumVersion: "2.3"
+
+Input:
+  NAME: fleetctl
+  MUNKI_REPO_SUBDIR: "apps/fleetctl"
+  pkginfo:
+    catalogs:
+      - testing
+    description: >
+      fleetctl (pronounced "Fleet control") is a command line interface (CLI) tool for managing Fleet from the command line. fleetctl enables a GitOps workflow with Fleet.
+      fleetctl also provides a quick way to work with all the data exposed by Fleet without having to use the Fleet UI or work directly with the Fleet API.
+    display_name: "%NAME%"
+    name: "%NAME%"
+
+Process:
+  - Processor: MunkiInstallsItemsCreator
+    Arguments:
+      faux_root: "%RECIPE_CACHE_DIR%/pkg_root"
+      installs_item_paths:
+        - "/usr/local/bin/fleetctl"
+
+  - Processor: MunkiPkginfoMerger
+
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pkg_path%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
