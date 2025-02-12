@@ -1,0 +1,31 @@
+Description: Gets the latest version of flog, and imports it into Munki.
+Identifier: com.github.jc0b.munki.flog
+ParentRecipe: com.github.jc0b.pkg.flog
+MinimumVersion: "2.3"
+
+Input:
+  NAME: flog
+  MUNKI_REPO_SUBDIR: "apps/%NAME%"
+  pkginfo:
+    catalogs:
+      - testing
+    description: >
+      <code>flog</code> is a command-line tool for sending log messages to Apple's unified logging system and is primarily intended for use in scripts.
+    display_name: "%NAME%"
+    name: "%NAME%"
+    supported_architectures:
+      - "%ARCH%"
+
+Process:
+  - Processor: MunkiInstallsItemsCreator
+    Arguments:
+      faux_root: "%RECIPE_CACHE_DIR%/pkg_root"
+      installs_item_paths:
+        - "/usr/local/bin/flog"
+
+  - Processor: MunkiPkginfoMerger
+
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pkg_path%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"

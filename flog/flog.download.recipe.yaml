@@ -1,0 +1,26 @@
+Identifier: com.github.jc0b.download.flog
+Description: Gets the latest version of flog from Github releases, and unpacks it.
+MinimumVersion: "2.3"
+
+Input:
+  ARCH: arm64
+  NAME: flog
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      github_repo: "marcransome/flog"
+      asset_regex: "flog-v.*-darwin-%ARCH%.tar.xz"
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: "%NAME%-%ARCH%-%version%.tar.xz"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_format: "tar"
+      archive_path: "%pathname%"
+      destination_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%"
+      purge_destination: true

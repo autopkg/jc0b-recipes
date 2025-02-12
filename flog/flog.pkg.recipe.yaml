@@ -1,0 +1,37 @@
+Identifier: com.github.jc0b.pkg.flog
+Description: Gets the latest version of flog from Github releases, and creates an installer pkg.
+MinimumVersion: "2.3"
+ParentRecipe: com.github.jc0b.download.flog
+
+Input:
+  ARCH: arm64
+  NAME: flog
+  PKGID: com.marcransome.flog
+
+Process:
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        usr: "0775"
+        usr/local: "0775"
+        usr/local/bin: "0775"
+      pkgroot: "%RECIPE_CACHE_DIR%/pkg_root"
+
+  - Processor: Copier
+    Arguments:
+      source_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%/%NAME%-v%version%/bin/%NAME%"
+      destination_path: "%RECIPE_CACHE_DIR%/pkg_root/usr/local/bin/%NAME%"
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown:
+          - group: "wheel"
+            path: "/usr/local/bin/%NAME%"
+            user: "root"
+            mode: "0755"
+        pkgname: "%NAME%-%ARCH%-%version%"
+        version: "%version%"
+        id: "%PKGID%"
+        options: "purge_ds_store"
+        pkgdir: "%RECIPE_CACHE_DIR%"
