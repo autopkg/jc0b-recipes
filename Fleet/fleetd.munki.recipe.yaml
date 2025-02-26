@@ -1,0 +1,43 @@
+Identifier: com.github.jc0b.munki.fleetd
+Description: Imports a fleetd package into Munki.
+MinimumVersion: "2.3"
+ParentRecipe: com.github.jc0b.download.fleetd
+
+Input:
+  MUNKI_REPO_SUBDIR: fleetdm/fleetd
+  NAME: fleetd
+  pkginfo:
+    catalogs:
+      - testing
+    description: fleetd is a monitoring agent leveraging osquery.
+    developer: Fleet Device Management, Inc.
+    display_name: FleetDM
+    name: "%NAME%"
+    unattended_install: true
+    uninstall_method: removepackages
+
+Process:
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      flat_pkg_path: "%pathname%"
+      purge_destination: true
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      destination_path: "%RECIPE_CACHE_DIR%/payload"
+      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack/base.pkg/Payload"
+      purge_destination: true
+
+  - Processor: MunkiInstallsItemsCreator
+    Arguments:
+      faux_root: "%RECIPE_CACHE_DIR%/payload"
+      installs_item_paths: 
+        - "/Library/LaunchDaemons/com.fleetdm.orbit.plist"
+
+  - Processor: MunkiPkginfoMerger
+
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pathname%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
