@@ -1,0 +1,83 @@
+Identifier: com.github.jc0b.pkg.tenv
+Description: Gets the latest version of tenv from Github releases, and creates an installer pkg.
+MinimumVersion: "2.3"
+ParentRecipe: com.github.jc0b.download.tenv
+
+Input:
+  ARCH: arm64
+  NAME: tenv
+  PKGID: com.tofuutils.tenv
+
+Process:
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        usr: "0775"
+        usr/local: "0775"
+        usr/local/bin: "0775"
+        usr/local/bin/tenv: "0775"
+      pkgroot: "%RECIPE_CACHE_DIR%/pkg_root"
+
+  - Processor: Copier
+    Arguments:
+      source_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%/%NAME%"
+      destination_path: "%RECIPE_CACHE_DIR%/pkg_root/usr/local/bin/tenv/%NAME%"
+
+  - Processor: Copier
+    Arguments:
+      source_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%/atmos"
+      destination_path: "%RECIPE_CACHE_DIR%/pkg_root/usr/local/bin/tenv/atmos"
+
+  - Processor: Copier
+    Arguments:
+      source_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%/terraform"
+      destination_path: "%RECIPE_CACHE_DIR%/pkg_root/usr/local/bin/tenv/terraform"
+
+  - Processor: Copier
+    Arguments:
+      source_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%/terragrunt"
+      destination_path: "%RECIPE_CACHE_DIR%/pkg_root/usr/local/bin/tenv/terragrunt"
+
+  - Processor: Copier
+    Arguments:
+      source_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%/tf"
+      destination_path: "%RECIPE_CACHE_DIR%/pkg_root/usr/local/bin/tenv/tf"
+
+  - Processor: Copier
+    Arguments:
+      source_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%/tofu"
+      destination_path: "%RECIPE_CACHE_DIR%/pkg_root/usr/local/bin/tenv/tofu"
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown:
+          - group: "wheel"
+            path: "/usr/local/bin/tenv/%NAME%"
+            user: "root"
+            mode: "0755"
+          - group: "wheel"
+            path: "/usr/local/bin/tenv/atmos"
+            user: "root"
+            mode: "0755"
+          - group: "wheel"
+            path: "/usr/local/bin/tenv/terraform"
+            user: "root"
+            mode: "0755"
+          - group: "wheel"
+            path: "/usr/local/bin/tenv/terragrunt"
+            user: "root"
+            mode: "0755"
+          - group: "wheel"
+            path: "/usr/local/bin/tenv/tf"
+            user: "root"
+            mode: "0755"
+          - group: "wheel"
+            path: "/usr/local/bin/tenv/tofu"
+            user: "root"
+            mode: "0755"
+        pkgname: "%NAME%-%ARCH%-%version%"
+        version: "%version%"
+        id: "%PKGID%"
+        options: "purge_ds_store"
+        pkgdir: "%RECIPE_CACHE_DIR%"

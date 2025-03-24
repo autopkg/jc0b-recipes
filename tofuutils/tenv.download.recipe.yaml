@@ -1,0 +1,25 @@
+Identifier: com.github.jc0b.download.tenv
+Description: Gets the latest version of tenv from Github releases, and unpacks it.
+MinimumVersion: "2.3"
+
+Input:
+  ARCH: arm64
+  NAME: tenv
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      github_repo: "tofuutils/tenv"
+      asset_regex: "tenv_v.*_Darwin_%ARCH%.tar.gz"
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: "%NAME%-%ARCH%-%version%.tar.gz"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: "%pathname%"
+      destination_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%"
+      purge_destination: true
