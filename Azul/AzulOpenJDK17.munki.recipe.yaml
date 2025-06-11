@@ -26,11 +26,11 @@ Process:
   - Processor: FlatPkgUnpacker
     Arguments:
       flat_pkg_path: "%pkg_path%"
-      destination_path: "%RECIPE_CACHE_DIR%/unpack"
+      destination_path: "%RECIPE_CACHE_DIR%/unpack-%MUNKI_ARCH%"
 
   - Processor: PkgRootCreator
     Arguments:
-      pkgroot: "%RECIPE_CACHE_DIR%/%NAME%"
+      pkgroot: "%RECIPE_CACHE_DIR%/%NAME%-%MUNKI_ARCH%"
       pkgdirs:
         Library: "0755"
         Library/Java: "0755"
@@ -39,13 +39,13 @@ Process:
 
   - Processor: PkgPayloadUnpacker
     Arguments:
-      destination_path: "%RECIPE_CACHE_DIR%/%NAME%/Library/Java/JavaVirtualMachines/zulu-17.jdk"
-      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack/zulu-17.pkg/Payload"
+      destination_path: "%RECIPE_CACHE_DIR%/%NAME%-%MUNKI_ARCH%/Library/Java/JavaVirtualMachines/zulu-17.jdk"
+      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack-%MUNKI_ARCH%/zulu-17.pkg/Payload"
       purge_destination: true
 
   - Processor: MunkiInstallsItemsCreator
     Arguments:
-      faux_root: "%RECIPE_CACHE_DIR%/%NAME%/"
+      faux_root: "%RECIPE_CACHE_DIR%/%NAME%-%MUNKI_ARCH%/"
       installs_item_paths:
         - "/Library/Java/JavaVirtualMachines/zulu-17.jdk"
       version_comparison_key: "CFBundleShortVersionString"
@@ -54,7 +54,7 @@ Process:
 
   - Processor: PlistReader
     Arguments:
-      info_path: "%RECIPE_CACHE_DIR%/%NAME%/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Info.plist"
+      info_path: "%RECIPE_CACHE_DIR%/%NAME%-%MUNKI_ARCH%/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Info.plist"
       plist_keys:
         CFBundleShortVersionString: "version"
 
@@ -71,5 +71,5 @@ Process:
   - Processor: PathDeleter
     Arguments:
       path_list:
-        - "%RECIPE_CACHE_DIR%/%NAME%/"
-        - "%RECIPE_CACHE_DIR%/unpack/"
+        - "%RECIPE_CACHE_DIR%/%NAME%-%MUNKI_ARCH%/"
+        - "%RECIPE_CACHE_DIR%/unpack-%MUNKI_ARCH%/"
