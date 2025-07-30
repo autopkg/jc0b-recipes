@@ -1,0 +1,23 @@
+Identifier: com.github.jc0b.munki.JamfCheck
+Description: Imports a JamfCheck package into Munki.
+MinimumVersion: "2.3"
+ParentRecipe: com.github.jc0b.download.JamfCheck
+
+Input:
+  MUNKI_REPO_SUBDIR: txhaflaire/JamfCheck
+  NAME: JamfCheck
+  pkginfo:
+    catalogs:
+      - testing
+    description: The "JamfCheck" is an Apple code-signed and notarized macOS app that allows you to easily run a couple of checks for Jamf Pro, Jamf Connect, and Jamf Protect in a single app.
+    developer: Thijs Xhaflaire
+    name: "%NAME%"
+    unattended_install: true
+    uninstall_method: removepackages
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      extract_icon: true
+      pkg_path: "%pathname%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"

@@ -1,0 +1,26 @@
+Identifier: com.github.jc0b.download.JamfCheck
+Description: Gets the latest version of JamfCheck from Github releases, unpacks it, and verifies the signature.
+MinimumVersion: "2.3"
+
+Input:
+  NAME: JamfCheck
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      github_repo: txhaflaire/JamfCheck
+      asset_regex: JamfCheck-.*.pkg
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: "%NAME%-%version%.pkg"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      expected_authority_names:
+        - "Developer ID Installer: Thijs Xhaflaire (CLQKFNPCCP)"
+        - "Developer ID Certification Authority"
+        - "Apple Root CA"
+      input_path: "%pathname%"
