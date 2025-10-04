@@ -79,5 +79,4 @@ Process:
         pkgname: "%NAME%-%ARCH%-%version%"
         version: "%version%"
         id: "%PKGID%"
-        options: "purge_ds_store"
         pkgdir: "%RECIPE_CACHE_DIR%"
