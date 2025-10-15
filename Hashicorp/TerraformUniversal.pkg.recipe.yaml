@@ -37,7 +37,6 @@ Process:
             path: usr/local/bin
             user: root
         id: 'com.hashicorp.terraform-arm64'
-        options: purge_ds_store
         pkgdir: '%RECIPE_CACHE_DIR%'
         pkgname: '%NAME%-arm64-%version%'
 
@@ -60,7 +59,6 @@ Process:
             path: usr/local/bin
             user: root
         id: 'com.hashicorp.terraform-amd64'
-        options: purge_ds_store
         pkgdir: '%RECIPE_CACHE_DIR%'
         pkgname: '%NAME%-amd64-%version%'
 
@@ -92,7 +90,6 @@ Process:
       pkg_request:
         id: 'com.hashicorp.terraform'
         version: '%version%'
-        options: purge_ds_store
         pkgname: '%NAME%-Universal-%version%'
         pkgdir: '%RECIPE_CACHE_DIR%'
         scripts: '%RECIPE_CACHE_DIR%/Universal/Scripts'
