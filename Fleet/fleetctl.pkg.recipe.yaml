@@ -1,7 +1,7 @@
 Description: Gets the latest version of fleetctl, and creates an installer pkg.
 Identifier: com.github.jc0b.pkg.fleetctl
 ParentRecipe: com.github.jc0b.download.fleetctl
-MinimumVersion: "2.3"
+MinimumVersion: "2.7.6"
 
 Input:
   NAME: fleetctl

@@ -1,6 +1,6 @@
 Description: Gets the latest version of fleetctl from Github releases, and normalises the version.
 Identifier: com.github.jc0b.download.fleetctl
-MinimumVersion: "2.3"
+MinimumVersion: "2.7.6"
 
 Input:
   NAME: fleetctl
@@ -13,11 +13,12 @@ Process:
       sort_by_highest_tag_names: true
       release_id: "latest"
 
-  - Processor: com.github.jazzace.processors/TextSearcher
+  - Processor: FindAndReplace
     Arguments:
-      re_pattern: \d+\.\d{1,2}\.\d{1,2}
-      text_in: "%version%"
-      result_output_var_name: "version"
+      find: fleet-v
+      input_string: "%version%"
+      replace: ""
+      result_output_var_name: version
 
   - Processor: URLDownloader
     Arguments:

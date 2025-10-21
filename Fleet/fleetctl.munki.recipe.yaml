@@ -1,7 +1,7 @@
 Description: Gets the latest version of fleetctl, and imports it into Munki.
 Identifier: com.github.jc0b.munki.fleetctl
 ParentRecipe: com.github.jc0b.pkg.fleetctl
-MinimumVersion: "2.3"
+MinimumVersion: "2.7.6"
 
 Input:
   NAME: fleetctl
@@ -28,3 +28,9 @@ Process:
     Arguments:
       pkg_path: "%pkg_path%"
       repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
+
+  - Processor: PathDeleter
+    Arguments:
+      path_list:
+        - "%RECIPE_CACHE_DIR%/%NAME%"
+        - "%RECIPE_CACHE_DIR%/pkg_root"
