@@ -1,7 +1,7 @@
 Identifier: com.github.jc0b.munki.Ice
 Description: Imports an Ice .pkg into Munki.
 MinimumVersion: "2.3"
-ParentRecipe: com.github.jc0b.pkg.Ice
+ParentRecipe: com.github.kevinmcox.pkg.Ice
 
 Input:
   MUNKI_REPO_SUBDIR: jordanbaird/ice

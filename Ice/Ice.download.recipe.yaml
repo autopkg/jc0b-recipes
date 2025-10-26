@@ -6,6 +6,10 @@ Input:
   NAME: Ice
 
 Process:
+  - Processor: DeprecationWarning
+    Arguments:
+      warning_message: Consider switching to the Ice recipes in the kevinmcox-recipes repo. This recipe is deprecated and will be removed in the future.
+
   - Processor: GitHubReleasesInfoProvider
     Arguments:
       github_repo: jordanbaird/Ice
@@ -25,7 +29,7 @@ Process:
 
   - Processor: CodeSignatureVerifier
     Arguments:
-      input_path: '%RECIPE_CACHE_DIR%/%NAME%/%NAME%.app'
+      input_path: '%RECIPE_CACHE_DIR%/%NAME%/Ice.app'
       requirement: identifier "com.jordanbaird.Ice" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = K2ATHQPJDP
       deep_verification: True
       strict_verification: True
