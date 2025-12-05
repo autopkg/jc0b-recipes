@@ -45,6 +45,7 @@ Process:
 
   - Processor: MunkiInstallsItemsCreator
     Arguments:
+      derive_minimum_os_version: true
       faux_root: "%RECIPE_CACHE_DIR%/payload"
       installs_item_paths:
         - "/Applications/Particulars.app"
