@@ -21,8 +21,8 @@ Input:
 Process:
   - Processor: DmgCreator
     Arguments:
-      dmg_path: "%RECIPE_CACHE_DIR%/%NAME%.dmg"
-      dmg_root: "%RECIPE_CACHE_DIR%/%NAME%"
+      dmg_path: "%RECIPE_CACHE_DIR%/%NAME%-%MUNKI_ARCH%.dmg"
+      dmg_root: "%RECIPE_CACHE_DIR%/%NAME%%DOWNLOAD_ARCH%"
 
   - Processor: MunkiImporter
     Arguments:
