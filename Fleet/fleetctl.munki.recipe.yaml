@@ -13,7 +13,11 @@ Input:
       fleetctl (pronounced "Fleet control") is a command line interface (CLI) tool for managing Fleet from the command line. fleetctl enables a GitOps workflow with Fleet.
       fleetctl also provides a quick way to work with all the data exposed by Fleet without having to use the Fleet UI or work directly with the Fleet API.
     display_name: "%NAME%"
+    minimum_os_version: "12.0"
     name: "%NAME%"
+    version_script: |
+      #!/bin/sh
+      /usr/local/bin/fleetctl --version | /usr/bin/awk '/^fleetctl/{print $4}'
 
 Process:
   - Processor: MunkiInstallsItemsCreator
