@@ -10,7 +10,7 @@ Process:
   - Processor: URLDownloader
     Arguments:
       url: "%DOWNLOAD_URL%"
-      filename: "%NAME%.zip"
+      filename: "%NAME%%DOWNLOAD_ARCH%.zip"
 
   - Processor: EndOfCheckPhase
 
