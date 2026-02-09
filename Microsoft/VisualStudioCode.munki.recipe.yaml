@@ -5,7 +5,8 @@ MinimumVersion: "2.3"
 Input:
   NAME: VisualStudioCode
   DISPLAY_NAME: "VS Code"
-  MUNKI_ARCH: "x86_64" # override to arm64 for Apple Silicon
+  DOWNLOAD_ARCH: "-x64" # needs to be "-arm64" for Apple Silicon. Can also be "-universal"
+  MUNKI_ARCH: "x86_64" # override to arm64 for Apple Silicon. Delete supported_architectures for universal
   MUNKI_REPO_SUBDIR: "microsoft/visualstudiocode"
   pkginfo:
     catalogs:
@@ -19,19 +20,9 @@ Input:
       - "%MUNKI_ARCH%"
 
 Process:
-  - Processor: DmgCreator
-    Arguments:
-      dmg_path: "%RECIPE_CACHE_DIR%/%NAME%-%MUNKI_ARCH%.dmg"
-      dmg_root: "%RECIPE_CACHE_DIR%/%NAME%%DOWNLOAD_ARCH%"
 
   - Processor: MunkiImporter
     Arguments:
       extract_icon: true
-      pkg_path: "%dmg_path%"
+      pkg_path: "%pathname%"
       repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
-
-  - Processor: PathDeleter
-    Arguments:
-      path_list:
-        - "%dmg_path%"
-        - "%dmg_root%"
