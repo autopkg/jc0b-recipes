@@ -1,0 +1,29 @@
+Identifier: com.github.jc0b.munki.glab
+Description: >
+  Downloads the Gitlab CLI (glab) from Gitlab releases, and imports it into a Munki repository.
+MinimumVersion: "2.7.6"
+ParentRecipe: com.github.jc0b.pkg.glab
+
+Input:
+  NAME: "glab"
+  DISPLAY_NAME: "glab"
+  MUNKI_REPO_SUBDIR: "apps/glab"
+  pkginfo:
+    catalogs:
+      - testing
+    description: >
+      glab is an open source GitLab CLI tool bringing GitLab to your terminal next to where you are already working with git and your code without switching between windows and browser tabs. 
+      Work with issues, merge requests, watch running pipelines directly from your CLI among other features.
+      glab is available for repositories hosted on GitLab.com and self-managed GitLab instances. 
+      glab supports multiple authenticated GitLab instances and automatically detects the authenticated hostname from the remotes available in the working Git directory.
+    developer: GitLab Inc.
+    display_name: "%DISPLAY_NAME%"
+    name: "%NAME%"
+    supported_architectures:
+      - "%ARCH%"
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pkg_path%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"

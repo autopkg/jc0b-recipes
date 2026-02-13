@@ -1,0 +1,38 @@
+Description: Gets the latest version of the Gitlab glab CLI from Gitlab releases.
+Identifier: com.github.jc0b.download.glab
+MinimumVersion: "2.7.6"
+
+Input:
+  ARCH: arm64 # set to x86_64 for Intel
+  NAME: glab
+
+Process:
+  - Processor: FindAndReplace
+    Arguments:
+      find: x86_64
+      input_string: "%ARCH%"
+      replace: amd64
+      result_output_var_name: DOWNLOAD_ARCH
+
+  - Processor: com.github.n8felton.shared/GitLabReleasesInfoProvider
+    Arguments:
+      GITLAB_PROJECT_ID: 34675721
+      link_regex: glab_.*darwin_%DOWNLOAD_ARCH%.tar.gz
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: "%NAME%-%DOWNLOAD_ARCH%-%version%.tar.gz"
+      url: "%direct_asset_url%"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: "%pathname%"
+      destination_path: "%RECIPE_CACHE_DIR%/%NAME%-%DOWNLOAD_ARCH%"
+      purge_destination: true
+
+  - Processor: CodeSignatureVerifier
+    Arguments: #TODO: submit an upstream PR/issue to get a proper bundle identifier for glab that is consistent across both architectures
+      requirement: (identifier "a.out" or identifier "glab") and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = W6RC2CZR58
+      input_path: "%destination_path%/bin/glab"
