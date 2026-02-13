@@ -1,28 +1,31 @@
-Description: Downloads the latest VS Code zip, and imports it into Munki.
+Description: Downloads the latest VS Code and imports it into Munki.
 Identifier: com.github.jc0b.munki.VisualStudioCode
 ParentRecipe: com.github.jc0b.download.VisualStudioCode
-MinimumVersion: "2.3"
+MinimumVersion: "2.7.6"
 Input:
+  ARCH: "arm64" # Intel = "x86_64", Apple Silicon = "arm64, Universal = "universal" || Delete the supported_architectures array if using "universal"
   NAME: VisualStudioCode
   DISPLAY_NAME: "VS Code"
-  DOWNLOAD_ARCH: "-x64" # needs to be "-arm64" for Apple Silicon. Can also be "-universal"
-  MUNKI_ARCH: "x86_64" # override to arm64 for Apple Silicon. Delete supported_architectures for universal
+  EXTRACT_ICON: "true" # Pass an empty variable to skip icon extraction.
+  MUNKI_CATEGORY: Development
   MUNKI_REPO_SUBDIR: "microsoft/visualstudiocode"
   pkginfo:
     catalogs:
       - testing
+    category: "%MUNKI_CATEGORY%"
     description: >
       Free and built on open source. Integrated Git, debugging and extensions.
     developer: Microsoft Corporation
     display_name: "%DISPLAY_NAME%"
     name: "%NAME%"
     supported_architectures:
-      - "%MUNKI_ARCH%"
+      - "%ARCH%"
+    unattended_install: true
+    unattended_uninstall: true
 
 Process:
-
   - Processor: MunkiImporter
     Arguments:
-      extract_icon: true
+      extract_icon: "%EXTRACT_ICON%"
       pkg_path: "%pathname%"
       repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
