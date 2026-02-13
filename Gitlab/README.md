@@ -1,6 +1,6 @@
 # Gitlab recipes
 
-> [!INFO]
+> [!IMPORTANT]
 > These recipes deviate from the AutoPkg 2.3 requirement across the rest of my recipes, and require AutoPkg 2.7.6, as they rely on the newer FindAndReplace processor.
 
 ## License Notices
