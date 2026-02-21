@@ -6,12 +6,15 @@ Input:
   NAME: VisualStudioCode
 
 Process:
-  - Processor: FindAndReplace
+  - Processor: com.github.homebysix.FindAndReplace/FindAndReplace
     Arguments:
       find: x86_64
       input_string: "%ARCH%"
       replace: x64
-      result_output_var_name: DOWNLOAD_ARCH
+
+  - Processor: com.github.rtrouton.SharedProcessors/VariablePlaceholder
+    Arguments:
+      DOWNLOAD_ARCH: "%output_string%"
 
   - Processor: URLDownloader
     Arguments:
