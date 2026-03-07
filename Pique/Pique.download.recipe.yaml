@@ -1,0 +1,44 @@
+Description: Gets the latest version of Pique from Github releases, and normalises the version.
+Identifier: com.github.jc0b.download.Pique
+MinimumVersion: "2.3"
+
+Input:
+  NAME: Pique
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      github_repo: headmin/pique
+      asset_regex: Pique-.*pkg
+      sort_by_highest_tag_names: true
+      release_id: "latest"
+
+  - Processor: com.github.homebysix.FindAndReplace/FindAndReplace
+    Arguments:
+      find: v
+      input_string: "%version%"
+      replace: ""
+
+  - Processor: com.github.homebysix.FindAndReplace/FindAndReplace
+    Arguments:
+      find: -beta
+      input_string: "%version%"
+      replace: "b"
+
+  - Processor: com.github.rtrouton.SharedProcessors/VariablePlaceholder
+    Arguments:
+      version: "%output_string%"
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: "%NAME%.pkg"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      expected_authority_names:
+        - "Developer ID Installer: Declarative IT GmbH (D6G4X4D7C9)"
+        - "Developer ID Certification Authority"
+        - "Apple Root CA"
+      input_path: "%pathname%"
