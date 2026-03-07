@@ -12,7 +12,9 @@ Input:
     description: >
       A macOS Quick Look extension for syntax-highlighted previews of configuration files and scripts.
     display_name: "%NAME%"
+    minimum_os_version: "26.0"
     name: "%NAME%"
+    version: "%version%"
 
 Process:
   - Processor: MunkiImporter
