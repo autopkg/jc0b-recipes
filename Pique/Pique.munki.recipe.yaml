@@ -5,7 +5,7 @@ MinimumVersion: "2.7.6"
 
 Input:
   NAME: Pique
-  MUNKI_REPO_SUBDIR: "headmin/pique"
+  MUNKI_REPO_SUBDIR: "macadmins/pique"
   pkginfo:
     catalogs:
       - testing
