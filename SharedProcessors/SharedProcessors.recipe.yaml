@@ -1,3 +1,5 @@
 Description: Shared Processors for jc0b-recipes
 Identifier: com.github.jc0b.shared
 MinimumVersion: "2.3"
+Input: {}
+Process : []
