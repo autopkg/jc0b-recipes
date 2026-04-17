@@ -1,0 +1,23 @@
+Description: Gets the latest version of Contour, and imports it into Munki.
+Identifier: com.github.jc0b.munki.Contour
+ParentRecipe: com.github.jc0b.download.Contour
+MinimumVersion: "2.7.6"
+
+Input:
+  NAME: Contour
+  MUNKI_REPO_SUBDIR: "headmin/contour"
+  pkginfo:
+    catalogs:
+      - testing
+    description: |
+      The Swiss Army Knife for Apple Device Management tasks.
+      One binary, multiple tools. A Mac admin's special tooling to slice and dice configuration profiles, validate, unsign/sign, and prepare them for MDM migration and GitOps work — start transforming existing profiles and create new ones.
+    display_name: "%NAME%"
+    minimum_os_version: "26.0"
+    name: "%NAME%"
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pathname%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
