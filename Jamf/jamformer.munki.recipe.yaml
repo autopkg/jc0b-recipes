@@ -1,0 +1,19 @@
+Description: Imports the latest version of jamformer into Munki.
+Identifier: com.github.jc0b.munki.jamformer
+MinimumVersion: "2.3"
+ParentRecipe: com.github.jc0b.download.jamformer
+
+Input:
+  NAME: jamformer
+  MUNKI_REPO_SUBDIR: "apps/jamf"
+  pkginfo:
+    catalogs:
+      - testing
+    description: A CLI tool that converts a Jamf instance into a structured Terraform project.
+    name: "%NAME%"
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pathname%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"

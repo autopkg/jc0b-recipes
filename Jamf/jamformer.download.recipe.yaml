@@ -1,0 +1,28 @@
+Description: Gets the latest version of jamformer from Github releases, and normalises the version.
+Identifier: com.github.jc0b.download.jamformer
+MinimumVersion: "2.3"
+
+Input:
+  NAME: jamformer
+
+Process:
+  - Processor: GitHubReleasesInfoProvider
+    Arguments:
+      github_repo: Jamf-Concepts/jamformer
+      asset_regex: jamformer-.*.pkg
+      sort_by_highest_tag_names: true
+      release_id: "latest"
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: "%NAME%-%version%.pkg"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      expected_authority_names:
+        - "Developer ID Installer: JAMF Software (483DWKW443)"
+        - "Developer ID Certification Authority"
+        - "Apple Root CA"
+      input_path: "%pathname%"
