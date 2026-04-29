@@ -8,7 +8,7 @@ Input:
 Process:
   - Processor: GitHubReleasesInfoProvider
     Arguments:
-      github_repo: headmin/contour
+      github_repo: macadmins/contour
       asset_regex: contour-.*pkg
       sort_by_highest_tag_names: true
       release_id: "latest"
@@ -38,7 +38,7 @@ Process:
   - Processor: CodeSignatureVerifier
     Arguments:
       expected_authority_names:
-        - "Developer ID Installer: Declarative IT GmbH (D6G4X4D7C9)"
+        - "Developer ID Installer: Mac Admins Open Source (T4SK8ZXCXG)"
         - "Developer ID Certification Authority"
         - "Apple Root CA"
       input_path: "%pathname%"
