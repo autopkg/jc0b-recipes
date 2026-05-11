@@ -1,0 +1,22 @@
+Description: Gets the latest version of carafe, and imports it into Munki.
+Identifier: com.github.jc0b.munki.carafe
+ParentRecipe: com.github.jc0b.download.carafe
+MinimumVersion: "2.7.6"
+
+Input:
+  NAME: carafe
+  MUNKI_REPO_SUBDIR: "macadmins/carafe"
+  pkginfo:
+    catalogs:
+      - testing
+    description: |
+      Carafe is a (fancy) wrapper for Homebrew. It is designed to be run as root; 
+      it drops privileges to the currently logged-in user so it can be safely executed by management tools such as Munki or Jamf.
+    display_name: "%NAME%"
+    name: "%NAME%"
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pathname%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
