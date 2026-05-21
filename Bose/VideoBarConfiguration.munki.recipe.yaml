@@ -1,0 +1,25 @@
+Description: |
+  Imports the latest version of Bose's Video Bar configuration installer into Munki.
+Identifier: com.github.jc0b.munki.BoseVideoBarConfiguration
+MinimumVersion: "2.3"
+ParentRecipe: com.github.jc0b.download.BoseVideoBarConfiguration
+
+Input:
+  NAME: BoseVideoBarConfiguration
+  MUNKI_REPO_SUBDIR: "apps/bosevideobar"
+  pkginfo:
+    catalogs:
+      - testing
+    description: Use Videobar Configuration software to set up and configure a Videobar device.
+    name: "%NAME%"
+
+Process:
+  - Processor: FileMover
+    Arguments:
+      source: "%found_filename%"
+      target: "%RECIPE_CACHE_DIR%/%NAME%.pkg"
+
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%RECIPE_CACHE_DIR%/%NAME%.pkg"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"

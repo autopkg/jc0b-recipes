@@ -1,0 +1,50 @@
+Description: |
+  Gets the latest version of Bose's Video Bar configuration installer.
+Identifier: com.github.jc0b.download.BoseVideoBarConfiguration
+MinimumVersion: "2.3"
+
+Input:
+  NAME: BoseVideoBarConfiguration
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: "https://assets.boseprofessional.com/.*/sw_videobar_configuration_[0-9]-[0-9]-[0-9]_macos.zip"
+      url: "https://boseprofessional.com/products/videobars/software-videobars/videobar-configuration-software"
+
+  - Processor: URLDownloader
+    Arguments:
+      filename: "%RECIPE_CACHE_DIR%/%NAME%.zip"
+      url: "%match%"
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: Unarchiver
+    Arguments:
+      destination_path: "%RECIPE_CACHE_DIR%/unzipped"
+      purge_destination: true
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: "%RECIPE_CACHE_DIR%/unzipped/*.pkg"
+
+  - Processor: FlatPkgUnpacker
+    Arguments:
+      flat_pkg_path: "%found_filename%"
+      destination_path: "%RECIPE_CACHE_DIR%/unpacked"
+      purge_destination: true
+
+  - Processor: PkgPayloadUnpacker
+    Arguments:
+      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpacked/com.raphael.application.pkg/Payload"
+      destination_path: "%RECIPE_CACHE_DIR%/unpacked_payload"
+      purge_destination: true
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%RECIPE_CACHE_DIR%/unpacked_payload/Videobar Configuration.app"
+      requirement: identifier "com.raphael.application" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "7FDK3RUF89"
+
+  - Processor: Versioner
+    Arguments:
+      input_plist_path: "%RECIPE_CACHE_DIR%/unpacked_payload/Videobar Configuration.app/Contents/Info.plist"
