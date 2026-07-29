@@ -1,7 +1,7 @@
 Description: |
   Gets the latest version of Particulars from particulars.app.
 Identifier: com.github.jc0b.munki.Particulars
-MinimumVersion: "2.3"
+MinimumVersion: "2.6"
 ParentRecipe: com.github.jc0b.download.Particulars
 
 Input:
