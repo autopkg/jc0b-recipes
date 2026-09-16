@@ -8,6 +8,7 @@ Input:
   NAME: Particulars
   MUNKI_REPO_SUBDIR: fraserhess/particulars
   pkginfo:
+    blocking_applications: []
     catalogs:
       - testing
     description: |
