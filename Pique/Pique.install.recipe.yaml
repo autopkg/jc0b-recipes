@@ -1,0 +1,12 @@
+Description: Gets the latest version of Pique, and installs it.
+Identifier: com.github.jc0b.install.Pique
+ParentRecipe: com.github.jc0b.download.Pique
+MinimumVersion: "2.3"
+
+Input:
+  NAME: Pique
+
+Process:
+  - Processor: Installer
+    Arguments:
+      pkg_path: "%pathname%"
