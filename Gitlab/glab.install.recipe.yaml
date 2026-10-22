@@ -1,0 +1,13 @@
+Description: Gets the latest version of the Gitlab glab CLI, and installs it.
+Identifier: com.github.jc0b.install.glab
+ParentRecipe: com.github.jc0b.pkg.glab
+MinimumVersion: "2.7.6"
+
+Input:
+  NAME: glab
+  PKGID: com.gitlab.glab-cli
+
+Process:
+  - Processor: Installer
+    Arguments:
+      pkg_path: "%pkg_path%"
