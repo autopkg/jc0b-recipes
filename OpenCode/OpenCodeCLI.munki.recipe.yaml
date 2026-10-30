@@ -5,12 +5,15 @@ ParentRecipe: com.github.jc0b.pkg.OpenCodeCLI
 
 Input:
   NAME: OpenCodeCLI
+  MUNKI_ARCH: arm64
   MUNKI_REPO_SUBDIR: "anomalyco/opencode"
   pkginfo:
     catalogs:
       - testing
     description: OpenCode is an open source agent that helps you write code in your terminal, IDE, or desktop.
     name: "%NAME%"
+    supported_architectures:
+      - "%MUNKI_ARCH%"
 
 Process:
   - Processor: MunkiImporter
