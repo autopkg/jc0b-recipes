@@ -1,0 +1,29 @@
+Description: Downloads the latest version of the incident.io macOS app.
+Identifier: com.github.jc0b.download.incident.io
+MinimumVersion: "2.3"
+
+Input:
+  NAME: incident.io
+
+Process:
+  - Processor: SparkleUpdateInfoProvider
+    Arguments:
+      appcast_url: https://storage.googleapis.com/incident-io-production-downloads/appcast.xml
+
+  - Processor: URLDownloader
+
+  - Processor: EndOfCheckPhase
+
+  - Processor: StopProcessingIf
+    Arguments:
+      predicate: 'download_changed == False'
+
+  - Processor: Unarchiver
+    Arguments:
+      purge_destination: True
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: "%RECIPE_CACHE_DIR%/%NAME%/incident.io.app"
+      requirement: identifier "com.incidentio.desktop" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "2B35RJ426W"
+
