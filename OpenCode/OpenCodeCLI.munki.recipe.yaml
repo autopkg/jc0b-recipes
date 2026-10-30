@@ -1,0 +1,19 @@
+Description: Imports the latest version of opencode into Munki.
+Identifier: com.github.jc0b.munki.OpenCodeCLI
+MinimumVersion: "2.3"
+ParentRecipe: com.github.jc0b.pkg.OpenCodeCLI
+
+Input:
+  NAME: OpenCodeCLI
+  MUNKI_REPO_SUBDIR: "anomalyco/opencode"
+  pkginfo:
+    catalogs:
+      - testing
+    description: OpenCode is an open source agent that helps you write code in your terminal, IDE, or desktop.
+    name: "%NAME%"
+
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: "%pkg_path%"
+      repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
