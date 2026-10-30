@@ -1,0 +1,36 @@
+Description: Gets the latest version of opencode, and creates an installer pkg.
+Identifier: com.github.jc0b.pkg.OpenCodeCLI
+ParentRecipe: com.github.jc0b.download.OpenCodeCLI
+MinimumVersion: "2.3"
+
+Input:
+  NAME: OpenCodeCLI
+  PKGID: com.github.autopkg.opencode-cli
+
+Process:
+
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgdirs:
+        usr: "0755"
+        usr/local: "0755"
+        usr/local/bin: "0755"
+      pkgroot: "%RECIPE_CACHE_DIR%/pkg_root"
+
+  - Processor: Copier
+    Arguments:
+      source_path: "%RECIPE_CACHE_DIR%/%NAME%-%ARCH%/opencode"
+      destination_path: "%RECIPE_CACHE_DIR%/pkg_root/usr/local/bin/opencode"
+
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        chown:
+          - group: "wheel"
+            path: "/usr/local/bin/opencode"
+            user: "root"
+            mode: "0755"
+        pkgname: "%NAME%-%ARCH%-%version%"
+        version: "%version%"
+        id: "%PKGID%"
+        pkgdir: "%RECIPE_CACHE_DIR%"
