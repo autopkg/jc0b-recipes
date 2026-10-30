@@ -16,8 +16,8 @@ Process:
 
   - Processor: Copier
     Arguments:
-      source_path: "%RECIPE_CACHE_DIR%/%NAME%/%NAME%.app"
-      destination_path: "%RECIPE_CACHE_DIR%/pkg_root/Applications/%NAME%.app"
+      source_path: "%RECIPE_CACHE_DIR%/%NAME%/incident.io.app"
+      destination_path: "%RECIPE_CACHE_DIR%/pkg_root/Applications/incident.io.app"
 
   - Processor: PkgCreator
     Arguments:
